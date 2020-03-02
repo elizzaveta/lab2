@@ -16,7 +16,7 @@ vector<string> get_files(string name) {
 	name += "\\*.csv";
 	wstring wname(name.length(), L' ');
 	copy(name.begin(), name.end(), wname.begin());
-	wstring path = L"D:\\Кпи\\Прога\\lab-code\\lab2-code\\lab2-code\\";
+	wstring path = L"D:\\ГЉГЇГЁ\\ГЏГ°Г®ГЈГ \\lab-code\\lab2-code\\lab2-code\\";
 	path += wname;
 	WIN32_FIND_DATA names;
 	HANDLE hf = FindFirstFileW(path.c_str(), &names);
@@ -31,7 +31,7 @@ vector<string> get_files(string name) {
 	return files;
 }
 
-//сделать массив имен бюджетников
+//Г±Г¤ГҐГ«Г ГІГј Г¬Г Г±Г±ГЁГў ГЁГ¬ГҐГ­ ГЎГѕГ¤Г¦ГҐГІГ­ГЁГЄГ®Гў
 vector<string> names_of_budg(string* all_names, string* if_budg, int n) {
 	vector<string> names;
 	for (int i = 0; i < n; i++) {
@@ -42,7 +42,21 @@ vector<string> names_of_budg(string* all_names, string* if_budg, int n) {
 	return names;
 }
 
-//записать все баллы бюджетников в массив
+
+int* sr_ball(int n_budg, int** ball){
+	int* sr_ball = new int[n_budg] {};
+	int sum = 0;
+	for (int i = 0; i < n_budg; i++){
+		for (int j = 0; j < 5; j++){
+			sum += ball[i][j];
+		}
+		sr_ball[i] = sum / 5;
+		sum = 0;
+	}
+	return sr_ball;
+}
+
+//Г§Г ГЇГЁГ±Г ГІГј ГўГ±ГҐ ГЎГ Г«Г«Г» ГЎГѕГ¤Г¦ГҐГІГ­ГЁГЄГ®Гў Гў Г¬Г Г±Г±ГЁГў
 int** ball(int** all_ball, string* if_budg, int n, int n_budg) {
 	int** ball = new int* [n_budg];
 	for (int i = 0; i < n_budg; i++) {
@@ -59,4 +73,5 @@ int** ball(int** all_ball, string* if_budg, int n, int n_budg) {
 	}
 	return ball;
 }
+
 
