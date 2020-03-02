@@ -62,20 +62,27 @@ int** ball(int** all_ball, string* if_budg, int n, int n_budg) {
 	}
 	return ball;
 }
-double* calculate_sr_ball(int n_budg, int** ball)
-{
+double* calculate_sr_ball(int n_budg, int** ball){
 	double* sr_ball = new double[n_budg] {};
 	double sum = 0;
-	for (int i = 0; i < n_budg; i++)
-	{
-		for (int j = 0; j < 5; j++)
-		{
+	for (int i = 0; i < n_budg; i++){
+		for (int j = 0; j < 5; j++){
 			sum += ball[i][j];
 		}
 		sr_ball[i] = round(sum / 5 * 1000) / 1000;
 		sum = 0;
 	}
 	return sr_ball;
+}
+void output_file(string dir, int n_forty, vector<string> names_of_budg_sorted, double* sr_ball_sorted){
+	string path = dir + "\\rating.csv";
+	ofstream fout;
+	fout.open(path);
+
+	for (int i = 0; i < n_forty; i++){
+		fout << names_of_budg_sorted[i] << "," << sr_ball_sorted[i] << "\n";
+	}
+	fout.close();
 }
 
 
