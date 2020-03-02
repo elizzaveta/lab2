@@ -73,5 +73,20 @@ int** ball(int** all_ball, string* if_budg, int n, int n_budg) {
 	}
 	return ball;
 }
+double* calculate_sr_ball(int n_budg, int** ball)
+{
+	double* sr_ball = new double[n_budg] {};
+	double sum = 0;
+	for (int i = 0; i < n_budg; i++)
+	{
+		for (int j = 0; j < 5; j++)
+		{
+			sum += ball[i][j];
+		}
+		sr_ball[i] = round(sum / 5 * 1000) / 1000;
+		sum = 0;
+	}
+	return sr_ball;
+}
 
 
