@@ -74,18 +74,18 @@ int** ball(int** all_ball, string* if_budg, int n, int n_budg) {
 	return ball;
 }
 
-//сортировка имен юбджетников и их среднего балла по спаданию среднего балла
-void sort_sr_ball(int* sr_ball, string* names, int n_budg) {
+//сортировка имен бджетников и их среднего балла по спаданию среднего балла
+void sort_sr_ball(double* sr_ball, vector<string>& names, int n_budg) {
 	for (int f = 1; f < n_budg; f++) {
 		int j = f - 1;
-		int key = sr_ball[f];
+		double key = sr_ball[f];
 		string key_name = names[f];
-		while (j > 0 && sr_ball[j] < key) {
+		while ((j >= 0) && (sr_ball[j] < key)) {
 			sr_ball[j + 1] = sr_ball[j];
 			names[j + 1] = names[j];
 			j--;
 		}
-		sr_ball[j - 1] = key;
-		names[j - 1] = key_name;
+		sr_ball[j + 1] = key;
+		names[j + 1] = key_name;
 	}
 }
