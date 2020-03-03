@@ -41,10 +41,6 @@ vector<string> names_of_budg(string* all_names, string* if_budg, int n) {
 	}
 	return names;
 }
-
-
-
-
 //çàïèñàòü âñå áàëëû áþäæåòíèêîâ â ìàññèâ
 int** ball(int** all_ball, string* if_budg, int n, int n_budg) {
 	int** ball = new int* [n_budg];
@@ -62,6 +58,7 @@ int** ball(int** all_ball, string* if_budg, int n, int n_budg) {
 	}
 	return ball;
 }
+//подсчет среднего балла
 double* calculate_sr_ball(int n_budg, int** ball){
 	double* sr_ball = new double[n_budg] {};
 	double sum = 0;
@@ -74,6 +71,7 @@ double* calculate_sr_ball(int n_budg, int** ball){
 	}
 	return sr_ball;
 }
+//вывод данных
 void output_file(string dir, int n_forty, vector<string> names_of_budg_sorted, double* sr_ball_sorted){
 	string path = dir + "\\rating.csv";
 	ofstream fout;
@@ -84,8 +82,8 @@ void output_file(string dir, int n_forty, vector<string> names_of_budg_sorted, d
 	}
 	fout.close();
 }
-
-int kilkist(vector<string> files)//кількість студентів{
+//количество студентов
+int kilkist(vector<string> files){
 	int k = 0;
 	int n = files.size();
 	ifstream fin;
@@ -99,6 +97,7 @@ int kilkist(vector<string> files)//кількість студентів{
 	}
 	return k;
 }
+//ввод данных
 void input(string dir, vector<string> files, string* all_names, int** all_ball, string* if_budg, int k) {
 	int n = files.size();
 	ifstream fin;
@@ -151,6 +150,7 @@ void sort_sr_ball(double* sr_ball, vector<string>& names, int n_budg) {
 		names[j + 1] = key_name;
 	}
 }
+//вычисление 40 процентов от бюджетников
 int forty_percent(int n_budg)
 {
 	int n_forty = n_budg * 0.4;
