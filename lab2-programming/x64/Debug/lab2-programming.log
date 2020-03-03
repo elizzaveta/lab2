@@ -1,0 +1,47 @@
+﻿  main.cpp
+D:\Кпи\Прога\git-projects\lab2\lab2-programming\main.cpp(39,26): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Кпи\Прога\git-projects\lab2\lab2-programming\main.cpp(69,22): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Кпи\Прога\git-projects\lab2\lab2-programming\main.cpp(89,22): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Кпи\Прога\git-projects\lab2\lab2-programming\main.cpp(101,35): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Кпи\Прога\git-projects\lab2\lab2-programming\main.cpp(105,36): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:\Кпи\Прога\git-projects\lab2\lab2-programming\main.cpp(109,24): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:\VisualStudio\VC\Tools\MSVC\14.24.28314\include\xstring(2388,23): warning C4244: 'argument': conversion from 'wchar_t' to 'const _Elem', possible loss of data
+          with
+          [
+              _Elem=char
+          ]
+D:\VisualStudio\VC\Tools\MSVC\14.24.28314\include\xstring(2399): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
+          with
+          [
+              _Iter=wchar_t *
+          ]
+D:\VisualStudio\VC\Tools\MSVC\14.24.28314\include\xstring(2399): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
+          with
+          [
+              _Iter=wchar_t *
+          ]
+D:\VisualStudio\VC\Tools\MSVC\14.24.28314\include\xstring(2379): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
+          with
+          [
+              _Iter=wchar_t *
+          ]
+D:\VisualStudio\VC\Tools\MSVC\14.24.28314\include\xstring(2379): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
+          with
+          [
+              _Iter=wchar_t *
+          ]
+D:\Кпи\Прога\git-projects\lab2\lab2-programming\main.cpp(59): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,void>(_Iter,_Iter,const _Alloc &)' being compiled
+          with
+          [
+              _Elem=wchar_t,
+              _Iter=std::_String_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
+              _Alloc=std::allocator<char>
+          ]
+D:\Кпи\Прога\git-projects\lab2\lab2-programming\main.cpp(59): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,void>(_Iter,_Iter,const _Alloc &)' being compiled
+          with
+          [
+              _Elem=wchar_t,
+              _Iter=std::_String_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
+              _Alloc=std::allocator<char>
+          ]
+  lab2-programming.vcxproj -> D:\Кпи\Прога\git-projects\lab2\x64\Debug\lab2-programming.exe
