@@ -161,4 +161,7 @@ double calculate_min_ball(int n_forty, double* sr_ball_sorted){
 	double min_ball = sr_ball_sorted[n_forty - 1];
 	return min_ball;
 }
-
+//вывод минимального балла
+void output_min(double min_ball){
+	cout << "Мінімальний балл для стипендії: " << min_ball;
+}
