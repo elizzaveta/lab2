@@ -4,12 +4,13 @@
 #include <windows.h>
 #include <iomanip>
 #include <string>
+#include <sstream>
 
 using namespace std;
 
 vector<string> get_files(string);
-void input(vector<string>, string*, int**, string*, int);
-int kilkist(vector<string>);
+void input(string, vector<string>, string*, int**, string*, int);
+int kilkist(vector<string>, string);
 vector<string> names_of_budg(string*, string*, int);
 int** ball(int**, string*, int, int);
 double* calculate_sr_ball(int, int**);
@@ -26,18 +27,18 @@ int main() {
 
 	string* all_names = new string[all_st];
 	int** all_ball = new int* [all_st];
-	for (int i = 0; i < k; i++)
+	for (int i = 0; i < all_st; i++)
 	{
 		all_ball[i] = new int[5];
 	}
 	string* if_budg = new string[all_st];
 
-	input(dir, files, all_names, all_ball, if_budg, k);
+	input(dir, files, all_names, all_ball, if_budg, all_st);
 
-	vector<string> budg = names_of_budg(all_names, if_budg, k);
+	vector<string> budg = names_of_budg(all_names, if_budg, all_st);
 	int n_budg = budg.size();
-	int** ball = calculate_ball(all_ball, if_budg, k, n_budg);
-	double* sr_ball = calculate_sr_ball(n_budg, ball);
+	int** b_ball = ball(all_ball, if_budg, all_st, n_budg);
+	double* sr_ball = calculate_sr_ball(n_budg, b_ball);
 
 	sort_sr_ball(sr_ball, budg, n_budg);
 	
@@ -48,7 +49,7 @@ vector<string> get_files(string name) {
 	name += "\\*.csv";
 	wstring wname(name.length(), L' ');
 	copy(name.begin(), name.end(), wname.begin());
-	wstring path = L"D:\\Êïè\\Ïðîãà\\lab-code\\lab2-code\\lab2-code\\";
+	wstring path = L"D:\\Кпи\\Прога\\lab-code\\lab2-code\\lab2-code\\";
 	path += wname;
 	WIN32_FIND_DATA names;
 	HANDLE hf = FindFirstFileW(path.c_str(), &names);
@@ -63,22 +64,28 @@ vector<string> get_files(string name) {
 	return files;
 }
 
-int kilkist(vector<string> files){
+int kilkist(vector<string> files, string dir) {
 	int k = 0;
 	int n = files.size();
 	ifstream fin;
 	string str;
-	for (int i = 0; i < n; i++){
-		string path = files[i];
+	string path = dir + "\\";
+	for (int i = 0; i < n; i++)
+	{
+		path += files[i];
 		fin.open(path);
 		fin >> str;
-		k += stoi(str);
+		stringstream st;
+		st << str;
+		int a;
+		st >> a;
+		k += a;
 		fin.close();
 	}
 	return k;
 }
 
-void input(vector<string> files, string* all_names, int** all_ball, string* if_budg, int k) {
+void input(string dir, vector<string> files, string* all_names, int** all_ball, string* if_budg, int k) {
 	int n = files.size();
 	ifstream fin;
 	string str;
