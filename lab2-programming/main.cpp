@@ -84,6 +84,7 @@ void output_file(string dir, int n_forty, vector<string> names_of_budg_sorted, d
 	}
 	fout.close();
 }
+
 int kilkist(vector<string> files)//кількість студентів{
 	int k = 0;
 	int n = files.size();
@@ -125,5 +126,21 @@ void input(vector<string> files, string* all_names, int** all_ball, string* if_b
 			}
 		}
 		fin.close();
+
+
+//сортировка имен бджетников и их среднего балла по спаданию среднего балла
+void sort_sr_ball(double* sr_ball, vector<string>& names, int n_budg) {
+	for (int f = 1; f < n_budg; f++) {
+		int j = f - 1;
+		double key = sr_ball[f];
+		string key_name = names[f];
+		while ((j >= 0) && (sr_ball[j] < key)) {
+			sr_ball[j + 1] = sr_ball[j];
+			names[j + 1] = names[j];
+			j--;
+		}
+		sr_ball[j + 1] = key;
+		names[j + 1] = key_name;
+
 	}
 }
