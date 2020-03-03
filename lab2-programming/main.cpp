@@ -149,6 +149,10 @@ void sort_sr_ball(double* sr_ball, vector<string>& names, int n_budg) {
 		}
 		sr_ball[j + 1] = key;
 		names[j + 1] = key_name;
-
 	}
+}
+int forty_percent(int n_budg)
+{
+	int n_forty = n_budg * 0.4;
+	return n_forty;
 }
