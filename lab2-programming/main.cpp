@@ -1,13 +1,45 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
+#include <windows.h>
 #include <iomanip>
 #include <string>
 
 using namespace std;
 
+vector<string> get_files(string);
+void input(vector<string>, string*, int**, string*, int);
+int kilkist(vector<string>);
+vector<string> names_of_budg(string*, string*, int);
+int** ball(int**, string*, int, int);
+double* calculate_sr_ball(int, int**);
+void sort_sr_ball(double*, vector<string>&, int);
+void output_file(string, int, vector<string>, double*);
+
+
 int main() {
 
+	string dir = "examples-2";
+	vector<string> files = get_files(dir);
+
+	int all_st = kilkist(files, dir);
+
+	string* all_names = new string[all_st];
+	int** all_ball = new int* [all_st];
+	for (int i = 0; i < k; i++)
+	{
+		all_ball[i] = new int[5];
+	}
+	string* if_budg = new string[all_st];
+
+	input(dir, files, all_names, all_ball, if_budg, k);
+
+	vector<string> budg = names_of_budg(all_names, if_budg, k);
+	int n_budg = budg.size();
+	int** ball = calculate_ball(all_ball, if_budg, k, n_budg);
+	double* sr_ball = calculate_sr_ball(n_budg, ball);
+
+	sort_sr_ball(sr_ball, budg, n_budg);
 	
 }
 
@@ -31,7 +63,51 @@ vector<string> get_files(string name) {
 	return files;
 }
 
-//ñäåëàòü ìàññèâ èìåí áþäæåòíèêîâ
+int kilkist(vector<string> files){
+	int k = 0;
+	int n = files.size();
+	ifstream fin;
+	string str;
+	for (int i = 0; i < n; i++){
+		string path = files[i];
+		fin.open(path);
+		fin >> str;
+		k += stoi(str);
+		fin.close();
+	}
+	return k;
+}
+
+void input(vector<string> files, string* all_names, int** all_ball, string* if_budg, int k) {
+	int n = files.size();
+	ifstream fin;
+	string str;
+	int m = 0;
+	for (int i = 0; i < n; i++) {
+		string path = files[i];
+		fin.open(path);
+		if (fin.is_open()) {
+			while (getline(fin, str)) {
+				if (m == 0)
+					continue;
+				int pos1 = 0;
+				int pos2 = str.find(",", pos1);
+				all_names[m] = str.substr(pos1, pos2 - pos1);
+				for (int l = 0; l < 5; l++) {
+					pos1 = pos2;
+					pos2 = str.find(",", pos1 + 1);
+					all_ball[m][l] = stoi(str.substr(pos1, pos2 - pos1));
+				}
+				pos1 = pos2;
+				pos2 = str.length();
+				if_budg[m] = str.substr(pos1, pos2 - pos1);
+				m++;
+			}
+		}
+		fin.close();
+	}
+}
+
 vector<string> names_of_budg(string* all_names, string* if_budg, int n) {
 	vector<string> names;
 	for (int i = 0; i < n; i++) {
@@ -42,10 +118,6 @@ vector<string> names_of_budg(string* all_names, string* if_budg, int n) {
 	return names;
 }
 
-
-
-
-//çàïèñàòü âñå áàëëû áþäæåòíèêîâ â ìàññèâ
 int** ball(int** all_ball, string* if_budg, int n, int n_budg) {
 	int** ball = new int* [n_budg];
 	for (int i = 0; i < n_budg; i++) {
@@ -62,6 +134,7 @@ int** ball(int** all_ball, string* if_budg, int n, int n_budg) {
 	}
 	return ball;
 }
+
 double* calculate_sr_ball(int n_budg, int** ball){
 	double* sr_ball = new double[n_budg] {};
 	double sum = 0;
@@ -74,61 +147,7 @@ double* calculate_sr_ball(int n_budg, int** ball){
 	}
 	return sr_ball;
 }
-void output_file(string dir, int n_forty, vector<string> names_of_budg_sorted, double* sr_ball_sorted){
-	string path = dir + "\\rating.csv";
-	ofstream fout;
-	fout.open(path);
 
-	for (int i = 0; i < n_forty; i++){
-		fout << names_of_budg_sorted[i] << "," << sr_ball_sorted[i] << "\n";
-	}
-	fout.close();
-}
-
-int kilkist(vector<string> files)//кількість студентів{
-	int k = 0;
-	int n = files.size();
-	ifstream fin;
-	string str;
-	for (int i = 0; i < n; i++){
-		string path = files[i];
-		fin.open(path);
-		fin >> str;
-		k += stoi(str);
-		fin.close();
-	}
-	return k;
-}
-void input(vector<string> files, string* all_names, int** all_ball, string* if_budg, int k){
-	int n = files.size();
-	ifstream fin;
-	string str;
-	int m = 0;
-	for (int i = 0; i < n; i++){
-		string path = files[i];
-		fin.open(path);
-		if (fin.is_open()){
-			while (getline(fin, str)){
-				if (m == 0)
-					continue;
-				int pos1 = 0;
-				int pos2 = str.find(",", pos1);
-				all_names[m] = str.substr(pos1, pos2 - pos1);
-				for (int l = 0; l < 5; l++){
-					pos1 = pos2;
-					pos2 = str.find(",", pos1 + 1);
-					all_ball[m][l] = stoi(str.substr(pos1, pos2 - pos1));
-				}
-				pos1 = pos2;
-				pos2 = str.length();
-				if_budg[m] = str.substr(pos1, pos2 - pos1);
-				m++;
-			}
-		}
-		fin.close();
-
-
-//сортировка имен бджетников и их среднего балла по спаданию среднего балла
 void sort_sr_ball(double* sr_ball, vector<string>& names, int n_budg) {
 	for (int f = 1; f < n_budg; f++) {
 		int j = f - 1;
@@ -144,3 +163,16 @@ void sort_sr_ball(double* sr_ball, vector<string>& names, int n_budg) {
 
 	}
 }
+
+void output_file(string dir, int n_forty, vector<string> names_of_budg_sorted, double* sr_ball_sorted){
+	string path = dir + "\\rating.csv";
+	ofstream fout;
+	fout.open(path);
+
+	for (int i = 0; i < n_forty; i++){
+		fout << names_of_budg_sorted[i] << "," << sr_ball_sorted[i] << "\n";
+	}
+	fout.close();
+}
+
+
