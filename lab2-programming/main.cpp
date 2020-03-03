@@ -98,4 +98,32 @@ int kilkist(vector<string> files)//кількість студентів{
 	}
 	return k;
 }
-
+void input(vector<string> files, string* all_names, int** all_ball, string* if_budg, int k){
+	int n = files.size();
+	ifstream fin;
+	string str;
+	int m = 0;
+	for (int i = 0; i < n; i++){
+		string path = files[i];
+		fin.open(path);
+		if (fin.is_open()){
+			while (getline(fin, str)){
+				if (m == 0)
+					continue;
+				int pos1 = 0;
+				int pos2 = str.find(",", pos1);
+				all_names[m] = str.substr(pos1, pos2 - pos1);
+				for (int l = 0; l < 5; l++){
+					pos1 = pos2;
+					pos2 = str.find(",", pos1 + 1);
+					all_ball[m][l] = stoi(str.substr(pos1, pos2 - pos1));
+				}
+				pos1 = pos2;
+				pos2 = str.length();
+				if_budg[m] = str.substr(pos1, pos2 - pos1);
+				m++;
+			}
+		}
+		fin.close();
+	}
+}
