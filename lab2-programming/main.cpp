@@ -156,3 +156,9 @@ int forty_percent(int n_budg)
 	int n_forty = n_budg * 0.4;
 	return n_forty;
 }
+//вычисление минимального балла для стипендии
+double calculate_min_ball(int n_forty, double* sr_ball_sorted){
+	double min_ball = sr_ball_sorted[n_forty - 1];
+	return min_ball;
+}
+
