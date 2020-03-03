@@ -16,12 +16,22 @@ int** ball(int**, string*, int, int);
 double* calculate_sr_ball(int, int**);
 void sort_sr_ball(double*, vector<string>&, int);
 void output_file(string, int, vector<string>, double*);
+int forty_percent(int n_budg);
+double calculate_min_ball(int n_forty, double* sr_ball_sorted);
+void output_min(double min_ball);
 
 
 int main() {
 
-	string dir = "examples-2";
+	setlocale(LC_ALL, "rus");
+
+	string dir = "examples_2";
+
 	vector<string> files = get_files(dir);
+
+	for (int i = 0; i < files.size(); i++) {
+		cout << files[i] << endl;
+	}
 
 	int all_st = kilkist(files, dir);
 
@@ -41,7 +51,13 @@ int main() {
 	double* sr_ball = calculate_sr_ball(n_budg, b_ball);
 
 	sort_sr_ball(sr_ball, budg, n_budg);
-	
+
+	int f = forty_percent(n_budg);
+	double min = calculate_min_ball(f, sr_ball);
+
+	output_file(dir, f, budg, sr_ball);
+	output_min(min);
+
 }
 
 vector<string> get_files(string name) {
@@ -49,7 +65,7 @@ vector<string> get_files(string name) {
 	name += "\\*.csv";
 	wstring wname(name.length(), L' ');
 	copy(name.begin(), name.end(), wname.begin());
-	wstring path = L"D:\\Кпи\\Прога\\lab-code\\lab2-code\\lab2-code\\";
+	wstring path = L"D:\\Кпи\\Прога\\git-projects\\git-lab2\\lab2\\lab2-programming\\";
 	path += wname;
 	WIN32_FIND_DATA names;
 	HANDLE hf = FindFirstFileW(path.c_str(), &names);
@@ -89,95 +105,6 @@ void input(string dir, vector<string> files, string* all_names, int** all_ball, 
 	int n = files.size();
 	ifstream fin;
 	string str;
-	int m = 0;
-	for (int i = 0; i < n; i++) {
-		string path = files[i];
-		fin.open(path);
-		if (fin.is_open()) {
-			while (getline(fin, str)) {
-				if (m == 0)
-					continue;
-				int pos1 = 0;
-				int pos2 = str.find(",", pos1);
-				all_names[m] = str.substr(pos1, pos2 - pos1);
-				for (int l = 0; l < 5; l++) {
-					pos1 = pos2;
-					pos2 = str.find(",", pos1 + 1);
-					all_ball[m][l] = stoi(str.substr(pos1, pos2 - pos1));
-				}
-				pos1 = pos2;
-				pos2 = str.length();
-				if_budg[m] = str.substr(pos1, pos2 - pos1);
-				m++;
-			}
-		}
-		fin.close();
-	}
-}
-
-vector<string> names_of_budg(string* all_names, string* if_budg, int n) {
-	vector<string> names;
-	for (int i = 0; i < n; i++) {
-		if (if_budg[i] == "TRUE") {
-			names.push_back(all_names[i]);
-		}
-	}
-	return names;
-}
-
-//çàïèñàòü âñå áàëëû áþäæåòíèêîâ â ìàññèâ
-int** ball(int** all_ball, string* if_budg, int n, int n_budg) {
-	int** ball = new int* [n_budg];
-	for (int i = 0; i < n_budg; i++) {
-		ball[i] = new int[5];
-	}
-	int b_pointer = 0;
-	for (int f = 0; f < n; f++) {
-		if (if_budg[f] == "TRUE") {
-			for (int j = 0; j < 5; j++) {
-				ball[b_pointer][j] = all_ball[f][j];
-			}
-			b_pointer++;
-		}
-	}
-	return ball;
-}
-
-//подсчет среднего балла
-double* calculate_sr_ball(int n_budg, int** ball){
-	double* sr_ball = new double[n_budg] {};
-	double sum = 0;
-	for (int i = 0; i < n_budg; i++){
-		for (int j = 0; j < 5; j++){
-			sum += ball[i][j];
-		}
-		sr_ball[i] = round(sum / 5 * 1000) / 1000;
-		sum = 0;
-	}
-	return sr_ball;
-}
-
-
-//количество студентов
-int kilkist(vector<string> files){
-	int k = 0;
-	int n = files.size();
-	ifstream fin;
-	string str;
-	for (int i = 0; i < n; i++){
-		string path = files[i];
-		fin.open(path);
-		fin >> str;
-		k += stoi(str);
-		fin.close();
-	}
-	return k;
-}
-//ввод данных
-void input(string dir, vector<string> files, string* all_names, int** all_ball, string* if_budg, int k) {
-	int n = files.size();
-	ifstream fin;
-	string str;
 	int g = 0;
 	int m = -1;
 	for (int i = 0; i < n; i++) {
@@ -211,6 +138,47 @@ void input(string dir, vector<string> files, string* all_names, int** all_ball, 
 	}
 }
 
+vector<string> names_of_budg(string* all_names, string* if_budg, int n) {
+	vector<string> names;
+	for (int i = 0; i < n; i++) {
+		if (if_budg[i] == "TRUE") {
+			names.push_back(all_names[i]);
+		}
+	}
+	return names;
+}
+
+int** ball(int** all_ball, string* if_budg, int n, int n_budg) {
+	int** ball = new int* [n_budg];
+	for (int i = 0; i < n_budg; i++) {
+		ball[i] = new int[5];
+	}
+	int b_pointer = 0;
+	for (int f = 0; f < n; f++) {
+		if (if_budg[f] == "TRUE") {
+			for (int j = 0; j < 5; j++) {
+				ball[b_pointer][j] = all_ball[f][j];
+			}
+			b_pointer++;
+		}
+	}
+	return ball;
+}
+
+//подсчет среднего балла
+double* calculate_sr_ball(int n_budg, int** ball) {
+	double* sr_ball = new double[n_budg] {};
+	double sum = 0;
+	for (int i = 0; i < n_budg; i++) {
+		for (int j = 0; j < 5; j++) {
+			sum += ball[i][j];
+		}
+		sr_ball[i] = round(sum / 5 * 1000) / 1000;
+		sum = 0;
+	}
+	return sr_ball;
+}
+
 //сортировка имен бджетников и их среднего балла по спаданию среднего балла
 void sort_sr_ball(double* sr_ball, vector<string>& names, int n_budg) {
 	for (int f = 1; f < n_budg; f++) {
@@ -234,20 +202,22 @@ int forty_percent(int n_budg)
 	return n_forty;
 }
 //вычисление минимального балла для стипендии
-double calculate_min_ball(int n_forty, double* sr_ball_sorted){
+double calculate_min_ball(int n_forty, double* sr_ball_sorted) {
 	double min_ball = sr_ball_sorted[n_forty - 1];
 	return min_ball;
 }
 //вывод минимального балла
-void output_min(double min_ball){
-	cout << "Мінімальний балл для стипендії: " << min_ball;
+void output_min(double min_ball) {
+	cout << "min ball: " << min_ball;
 }
-void output_file(string dir, int n_forty, vector<string> names_of_budg_sorted, double* sr_ball_sorted){
+void output_file(string dir, int n_forty, vector<string> names_of_budg_sorted, double* sr_ball_sorted)
+{
 	string path = dir + "\\rating.csv";
 	ofstream fout;
 	fout.open(path);
 
-	for (int i = 0; i < n_forty; i++){
+	for (int i = 0; i < n_forty; i++)
+	{
 		fout << names_of_budg_sorted[i] << "," << sr_ball_sorted[i] << "\n";
 	}
 	fout.close();
