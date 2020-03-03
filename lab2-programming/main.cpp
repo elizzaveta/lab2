@@ -84,5 +84,18 @@ void output_file(string dir, int n_forty, vector<string> names_of_budg_sorted, d
 	}
 	fout.close();
 }
-
+int kilkist(vector<string> files)//кількість студентів{
+	int k = 0;
+	int n = files.size();
+	ifstream fin;
+	string str;
+	for (int i = 0; i < n; i++){
+		string path = files[i];
+		fin.open(path);
+		fin >> str;
+		k += stoi(str);
+		fin.close();
+	}
+	return k;
+}
 
