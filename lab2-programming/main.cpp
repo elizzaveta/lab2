@@ -125,6 +125,7 @@ vector<string> names_of_budg(string* all_names, string* if_budg, int n) {
 	return names;
 }
 
+//çàïèñàòü âñå áàëëû áþäæåòíèêîâ â ìàññèâ
 int** ball(int** all_ball, string* if_budg, int n, int n_budg) {
 	int** ball = new int* [n_budg];
 	for (int i = 0; i < n_budg; i++) {
@@ -142,6 +143,7 @@ int** ball(int** all_ball, string* if_budg, int n, int n_budg) {
 	return ball;
 }
 
+//подсчет среднего балла
 double* calculate_sr_ball(int n_budg, int** ball){
 	double* sr_ball = new double[n_budg] {};
 	double sum = 0;
@@ -155,6 +157,61 @@ double* calculate_sr_ball(int n_budg, int** ball){
 	return sr_ball;
 }
 
+
+//количество студентов
+int kilkist(vector<string> files){
+	int k = 0;
+	int n = files.size();
+	ifstream fin;
+	string str;
+	for (int i = 0; i < n; i++){
+		string path = files[i];
+		fin.open(path);
+		fin >> str;
+		k += stoi(str);
+		fin.close();
+	}
+	return k;
+}
+//ввод данных
+void input(string dir, vector<string> files, string* all_names, int** all_ball, string* if_budg, int k) {
+	int n = files.size();
+	ifstream fin;
+	string str;
+	int g = 0;
+	int m = -1;
+	for (int i = 0; i < n; i++) {
+		string path = dir + "\\";
+		path += files[i];
+		fin.open(path);
+		if (fin.is_open()) {
+			while (getline(fin, str)) {
+				if (m == -1) {
+					m = g;
+					g += stoi(str);
+				}
+				else {
+					int pos1 = 0;
+					int pos2 = str.find(",", pos1);
+					all_names[m] = str.substr(pos1, pos2 - pos1);
+					for (int l = 0; l < 5; l++) {
+						pos1 = pos2 + 1;
+						pos2 = str.find(",", pos1 + 1);
+						all_ball[m][l] = stoi(str.substr(pos1, pos2 - pos1));
+					}
+					pos1 = pos2 + 1;
+					pos2 = str.length();
+					if_budg[m] = str.substr(pos1, pos2 - pos1);
+					m++;
+				}
+			}
+			m = -1;
+		}
+		fin.close();
+	}
+}
+
+//сортировка имен бджетников и их среднего балла по спаданию среднего балла
 void sort_sr_ball(double* sr_ball, vector<string>& names, int n_budg) {
 	for (int f = 1; f < n_budg; f++) {
 		int j = f - 1;
@@ -167,10 +224,24 @@ void sort_sr_ball(double* sr_ball, vector<string>& names, int n_budg) {
 		}
 		sr_ball[j + 1] = key;
 		names[j + 1] = key_name;
-
 	}
 }
 
+//вычисление 40 процентов от бюджетников
+int forty_percent(int n_budg)
+{
+	int n_forty = n_budg * 0.4;
+	return n_forty;
+}
+//вычисление минимального балла для стипендии
+double calculate_min_ball(int n_forty, double* sr_ball_sorted){
+	double min_ball = sr_ball_sorted[n_forty - 1];
+	return min_ball;
+}
+//вывод минимального балла
+void output_min(double min_ball){
+	cout << "Мінімальний балл для стипендії: " << min_ball;
+}
 void output_file(string dir, int n_forty, vector<string> names_of_budg_sorted, double* sr_ball_sorted){
 	string path = dir + "\\rating.csv";
 	ofstream fout;
@@ -181,5 +252,4 @@ void output_file(string dir, int n_forty, vector<string> names_of_budg_sorted, d
 	}
 	fout.close();
 }
-
 
